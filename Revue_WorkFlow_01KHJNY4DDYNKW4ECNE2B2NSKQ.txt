@@ -1,0 +1,1848 @@
+================================================================================
+TITLE: Revue WorkFlow
+ID: 01KHJNY4DDYNKW4ECNE2B2NSKQ
+DURATION: 1m 16s
+DATE: 2026-02-16 10:35:00
+PARTICIPANTS: j.ramian@cepremium.fr
+================================================================================
+
+--- SUMMARY ---
+- **Automatisation de la facturation** : Workflow réduit erreurs manuelles avec validation humaine sur données critiques pour assurer précision.
+
+- **Format de factures** : Facture générée par Apps Script; PDF légal requis, évitant OCR coûteux et erreurs de lecture.
+
+- **Gestion des absences** : Demandes via Google Forms, vérification des incohérences entre factures et déclarations RH avant validation.
+
+- **Sécurisation des données** : Double vérification et limitation d'accès pour prévenir fraudes; migration vers outil plus sûr que Google Sheets projetée.
+
+- **Calendrier et responsabilités** : Organisation claire des workflows assure progression rapide, avec jalons pour validation et déploiement efficace. 
+
+- **Tests et intégration** : Tests sur Airtable en cours; abonnement payé validé pour lever les limites, accès partagé pour collaboration.
+
+--- KEYWORDS ---
+Facturation automatique, Workflow RH, Pro-rata, Airtable, Appels d’offres, Centralisation communications
+
+--- ACTION ITEMS ---
+**Jimmy Ramian**
+Fournir les liens et accès nécessaires pour charger les ressources du workflow (00:47)
+Envoyer l’accès à l’équipe pour tester la base Airtable (19:16)
+Supprimer la base CEP sur Airtable et remettre à jour la version test pour contrôle (28:14)
+Envoyer le lien Payment à Annaël Lalason pour ses vérifications (57:51)
+Ajouter la gestion automatique des changements de contrats via Slack dans le workflow (53:37)
+Organiser une réunion de revue workflow RH avec Annaël Lalason avant mercredi (01:03:45)
+Programmer une session de présentation du workflow appels d’offres à Mick une fois terminé (01:04:10)
+
+**Annaël Lalason**
+Vérifier la liste de retraite avant de commencer le workflow RH (01:03:28)
+Valider le passage d’utilisation de Google Sheets vers Airtable sécurisé pour la facturation (35:14)
+Préparer la migration et formation collaborateurs sur le nouvel outil de facturation (42:26)
+
+**Julien Prevost**
+Contacter J3L pour obtenir confirmation sur la disponibilité d’API et process interfacés pour appels d’offres (01:06:22)
+Contrôler manuellement via fichier CSV les paiements avant validation finale avec la comptabilité (54:03)
+S’assurer que la comptabilité et RH respectent les droits d’accès et centralisation des modifications sur Airtable (49:20)
+
+**Jean Aimé**
+Recevoir les accès aux documents Google Forms et Airtable liés aux absences, congés et primes (46:55)
+
+================================================================================
+FULL TRANSCRIPT
+================================================================================
+
+
+--- Jimmy RAMIAN ---
+[00:00] Si tu le connais.
+[00:02] Je ne sais pas à partir de quelle étape on prend le relais du coup.
+
+--- Annaël Lalason ---
+[00:11] Faudrait que tu expliques d'abord le process.
+[00:15] Je crois, parce qu'on n'a pas encore vu.
+[00:18] Moi, en fait, quand je vois quelque chose que je ne comprends pas, je veux que ça s'explique au lieu d'avoir...
+[00:26] Et après, je pourrais revoir tout ça petit à petit.
+
+--- Jimmy RAMIAN ---
+[00:29] OK.
+[00:29] Suite à ce qu'on avait discuté la dernière fois, du coup, tac, tac, tac.
+
+--- Annaël Lalason ---
+[00:41] Du.
+
+--- Jimmy RAMIAN ---
+[00:47] Coup, moi, je pensais à un déclenchement toutes les 6 heures.
+[00:53] On va commencer par charger les ressources.
+[00:56] Comme discuté, Julien va nous fournir les liens, les accès, etc.
+[01:00] Tout ce dont on aura besoin.
+[01:01] Après, on va passer sur l'étape sourcine.
+
+--- Annaël Lalason ---
+[01:04] Pour aller chercher les...
+
+--- Jimmy RAMIAN ---
+[01:11] Vous m'entendez?
+
+--- Annaël Lalason ---
+[01:12] Oui, je t'entends.
+[01:14] OK.
+
+--- Jimmy RAMIAN ---
+[01:17] Du coup, on va faire la lecture, l'extraction, etc.
+[01:21] C'est ma proposition.
+[01:24] Du coup, on va récupérer les AOs qui ont été publiés depuis la dernière exécution du workflow.
+
+--- Julien Prevost ---
+[01:33] Jim, si on utilise l'IQL, ça va changer?
+
+--- Jimmy RAMIAN ---
+[01:37] Et justement, c'est pour ça que je t'ai posé la question tout à l'heure, jusqu'où ils s'arrêtent dans le workflow, à partir de quelle étape on va commencer à récupérer le workflow?
+[01:48] Puisque je ne sais pas du tout ce qu'ils font aujourd'hui, J3L.
+
+--- Julien Prevost ---
+[01:53] Commence par les autres.
+[01:54] On a ressources humaines déjà, par exemple.
+
+--- Jimmy RAMIAN ---
+[01:59] Ça, c'est pas encore terminé.
+[02:01] Je viens de le commencer.
+
+--- Jean Aimé ---
+[02:02] Et comptabilité.
+
+--- Jimmy RAMIAN ---
+[02:04] OK, comptabilité.
+[02:10] Alors, pour la partie comptabilité, je vous explique.
+[02:14] Aujourd'hui, on a deux types de facturation.
+[02:16] Il y a la facturation client, c'est-à-dire ce qu'on envoie au client à facturer.
+[02:20] Et il y a aussi la partie facturation talent, c'est-à-dire quand nous, nous créons nos factures et qu'on les envoie à la comptabilité.
+[02:36] Du coup, pour commencer, l'input, c'est la facturation client.
+[02:40] L'automatisation va préparer directement à partir de la base client qu'on a, c'est-à-dire les clients qui sont actifs, les éléments à facturer, et va mettre ces données-là dans le tableau.
+[02:54] Moi, je pense à RTBall, puisque c'est plus facile à utiliser quand on parle de board.
+[02:59] Mettre ces éléments-là dans le tableau, éléments préparés.
+[03:05] Après ça, Payne, Julien ou Marcel, ils vont faire une vérification manuelle.
+[03:10] Pourquoi c'est important?
+[03:11] Parce que des fois, il y a des changements suite à des réunions commerciales ou suite à des réunions avec le client.
+[03:16] Du coup, c'est mieux de passer quand même par une validation humaine avant d'envoyer les éléments à Sanji, à l'équipe comptable, pour la création des factures.
+[03:27] Du coup, quand Julien, quand l'équipe commerciale ou SAV effectue la validation des éléments, ça va calculer automatiquement les pro-rata.
+[03:37] Pourquoi pro-rata?
+[03:38] Parce que des fois, il y a des clients qui s'arrêtent, par exemple, le 20 du mois.
+[03:42] Du coup, la facturation ne va pas être complète.
+[03:46] Il y a aussi des clients qui démarrent avant le début du mois.
+[03:51] Du coup, c'est important de calculer le pro-rata en fonction de ces éléments-là.
+[03:54] Où est-ce qu'on récupère ces éléments-là?
+[03:56] C'est directement dans la fiche préparée et validée par l'équipe commerciale.
+[04:10] Donc, après ça, je vais rapidement passer sur l'étape de facturation client, puisqu'il y aura une vérification de cohérence après.
+[04:17] Pour les facturations clients, comment ça se passe aujourd'hui?
+[04:19] Vous le savez, le 21-22 du mois, on crée notre facture depuis le Google Sheet.
+[04:27] Et après, on l'envoie par mail.
+[04:29] Et ce qui se passe derrière, c'est que l'équipe comptable récupère le PDF qu'on envoie, copie-colle les informations, etc.
+[04:36] Et ça bouffe un monde du temps et ça génère pas mal d'erreurs dans la partie facturation.
+[04:43] Du coup, ce qu'on va faire, c'est que pendant la création...
+[04:48] Est-ce qu'ils le.
+
+--- Annaël Lalason ---
+[04:49] Font manuellement, cette partie où ils récupèrent les PDF et les transcripts?
+
+--- Jimmy RAMIAN ---
+[04:55] Non, ils le font manuellement.
+[04:56] Après, j'ai déjà mis en place un Apps Script qui récupère directement les infos à partir du fichier source.
+
+--- Annaël Lalason ---
+[05:03] D'accord.
+
+--- Jimmy RAMIAN ---
+[05:04] Et qui alimente directement l'AirTable.
+[05:06] Après, on peut voir ça ensemble.
+[05:09] Je pense que ce n'est pas difficile de le déplacer sur NUTEN.
+[05:14] D'accord.
+
+--- Annaël Lalason ---
+[05:17] Oui, mais est-ce que c'est obligé d'avoir cette facture en format PDF?
+
+--- Jimmy RAMIAN ---
+[05:24] Sur la partie législation, je pense que ce n'est pas compliqué.
+[05:28] Je ne sais pas si c'est obligatoire ou pas, on doit demander à Julien ou à Marcel.
+
+--- Julien Prevost ---
+[05:32] Une facture, c'est en PDF, tu ne l'envoies pas en Word.
+
+--- Jimmy RAMIAN ---
+[05:36] Comment?
+
+--- Julien Prevost ---
+[05:36] Une facture, c'est en PDF, tu ne l'envoies pas en Word.
+
+--- Jimmy RAMIAN ---
+[05:41] Mais après, il n'y a pas de souci, Naël, je pense, puisqu'on ne va pas aller sur le PDF pour faire la lecture, on va directement capter les flux à partir du fichier de création.
+[05:53] C'est ce que je fais aujourd'hui.
+
+--- Annaël Lalason ---
+[05:55] D'accord, d'accord, d'accord, d'accord.
+[05:57] Parce que si c'est du PDF, qu'on va ajouter du PDF dans le workflow, donc il faut prévoir un crédit pour des OCR, et un OCR de création, parce que ce sont des données qui, entre gros cuillemets, sont cibles.
+[06:13] Par exemple, si on change 1 000 euros par 10 000 euros, ça va se sentir.
+
+--- Jimmy RAMIAN ---
+[06:18] Tu vois, on ne va pas récupérer, on ne va pas déclencher notre workflow à partir du PDF, On va déclencher notre...
+[06:29] Deux secondes, les gars, je vais juste sortir mon chat.
+
+--- Annaël Lalason ---
+[06:37] Désolé.
+
+--- Jimmy RAMIAN ---
+[06:46] Attends, je pense que c'est plus pratique si je te demande directement...
+[06:51] la facture Tu vois, ça, c'est l'outil qu'utilisent les collaborateurs pour créer la facture.
+[07:50] Et tu vois, sur ce bouton-là, il y a un Apps Script qui crée le PDF.
+[07:58] Et du coup, c'est sur ce bouton-là qu'on va récupérer notre workflow, mais pas sur le PDF où l'on voit par.
+
+--- Annaël Lalason ---
+[08:04] Mail, etc.
+[08:05] Et imaginons, en fait, la personne, elle clique sur ce bouton, par exemple, ce serait plus créer un PDF, mais envoyer une facture, par exemple, et il a vu qu'il a fait un erreur, par exemple, parce que moi, je me réfère à ça à chaque fois.
+[08:25] Quand je crée un PDF sur la facture, quand le PDF a été créé, Je constate qu'il y avait quelques erreurs.
+[08:33] Par exemple, une erreur humaine.
+[08:36] Et sur cette partie-là...
+[08:38] Ah, il y a la partie gestion de tout plan après.
+[08:40] Ah, OK.
+
+--- Jimmy RAMIAN ---
+[08:40] Oui, je l'ai intégrée dans le workflow.
+[08:43] T'inquiète.
+
+--- Annaël Lalason ---
+[08:43] D'accord, ça marche.
+[08:45] Donc, si c'est comme ça, c'est OK.
+
+--- Jimmy RAMIAN ---
+[08:47] Oui, je l'ai intégrée justement, j'y ai pensé aussi.
+[08:52] Du coup, on va juste récupérer à partir de ce bouton-là notre appel, notre workflow, le début de notre workflow.
+
+--- Annaël Lalason ---
+[09:02] D'accord, quand tu cliques sur ce bouton, il n'y a encore rien qui se passe derrière.
+[09:07] Tu as déjà créé un Apps Script.
+[09:09] Qui permet de récupérer les informations du Excel?
+
+--- Jimmy RAMIAN ---
+[09:12] Si, il y a déjà un Apps Script qui récupère les infos et qui alimenter tes bols.
+
+--- Annaël Lalason ---
+[09:17] D'accord, donc on a déjà toutes les informations nécessaires.
+
+--- Jimmy RAMIAN ---
+[09:27] Mais je pense que ça va être un peu plus puissant si on le fait sur une 8ème.
+[09:32] Pourquoi?
+[09:32] Parce que la limite de Apps Script, comme tu sais, c'est la gestion des ranges, la gestion des cellules.
+[09:40] Si un jour, demain, après-demain, il y aura un collaborateur qui va faire 20 lignes d'items et des descriptions, ça va être très compliqué pour l'Apps Script de récupérer.
+
+--- Annaël Lalason ---
+[09:51] D'accord, ça marche.
+[09:54] Ok, sur cette partie là, on va se fier sur l'existant d'abord, on va aussi changer un peu, on peut changer un peu par exemple le formulaire de remplissage des factures ou quelque chose de similaire.
+
+--- Jimmy RAMIAN ---
+[10:13] Si tu as une autre proposition qui est meilleure que le Google Sheet.
+[10:17] Le Google Sheet, en fait, c'est pratique pour tout le monde.
+
+--- Annaël Lalason ---
+[10:19] Pourquoi?
+
+--- Jimmy RAMIAN ---
+[10:20] Puisque tout le monde, au moins, sait utiliser un Google Sheet.
+[10:24] Et c'est plus facile de trouver le fichier, etc., puisque c'est rattaché à leur adresse mail directement.
+
+--- Annaël Lalason ---
+[10:30] D'accord, d'accord, d'accord.
+[10:33] OK, c'est top pour moi.
+[10:35] C'est OK pour moi.
+
+--- Julien Prevost ---
+[10:36] OK.
+
+--- Jimmy RAMIAN ---
+[10:37] Ben, du coup, ça, c'est une fois par mois, la création de facture.
+[10:44] On a également la partie absence, les congés, etc.
+[10:48] Et ça, on a un fichier Google Forms.
+[10:53] Du coup, pour les demandes de congés, j'ai mis le lien ici.
+[10:57] Demande de congés, déclaration d'absence, etc.
+[11:00] Sur cette partie-là, il y a déjà un Apps Script qui notifie l'équipe RH et il y a une autre règle qui notifie la RH si le collaborateur déclare son absence à deux jours Après, ça date de retour puisque dans le process normalement, c'est que dès que tu reprends le travail, tu envoies le formulaire d'absence pour indiquer j'étais absent de telle date à telle date.
+[11:26] Pourquoi c'est pratique?
+[11:27] Puisque un peu plus tard dans le workflow, on va voir le timesheet.
+[11:32] Si le collaborateur déclare son absence qu'un mois après, ça va vraiment générer pas mal d'erreurs dans la partie automatisation, puisque normalement, ça doit être déduit de la facture en cours, alors que quand on a déclenché le workflow, ça n'a pas été déduit.
+[11:52] Du coup, ça va être compliqué de récupérer après.
+
+--- Annaël Lalason ---
+[11:59] D'accord, c'est compris.
+
+--- Jimmy RAMIAN ---
+[12:03] Donc ces deux données-là, la création de facture et les demandes de congés sur le timesheet, on va récupérer toutes les informations.
+[12:13] On va gérer les doublons.
+[12:14] Ça, c'est ta question tout à l'heure.
+[12:17] Et dans la logique, si tu crées une deuxième facture, c'est que sur la première, il y avait une erreur, comme tu as dit tout à l'heure.
+[12:26] Par contre, on va venir récupérer les deux fichiers.
+[12:29] Au lieu de créer deux lignes pour les deux factures créées, on va venir les fusionner.
+[12:36] Comme ça, c'est plus facile pour Julien, pour la partie comptabilité, de vérifier ce qui s'est passé.
+[12:41] Par contre, on va mettre un tag doublant.
+
+--- Annaël Lalason ---
+[12:48] D'accord, d'accord, j'ai compris cette partie.
+
+--- Jimmy RAMIAN ---
+[12:52] OK.
+
+--- Jean Aimé ---
+[12:54] Justement sur les tacts blancs, est-ce que c'est vraiment nécessaire de les fusionner?
+[13:04] Parce que si on voit la deuxième, normalement la deuxième c'est la version correcte.
+
+--- Julien Prevost ---
+[13:13] Oui.
+
+--- Jean Aimé ---
+[13:15] Ou il y a des fois ou des cas où on a besoin de de les comparer ou pourquoi on garde les deux?
+
+--- Jimmy RAMIAN ---
+[13:29] En fait, comme ce qui s'est passé le mois dernier, quand Julien, il prépare l'AP, samedi à 9 heures.
+[13:40] Du coup, il était là depuis vendredi, par exemple.
+[13:43] Il y a un collaborateur qui crée une nouvelle facture samedi à 9 heures moins quart.
+[13:48] Du coup, si on va directement supprimer la première facture, ça va générer pas mal de confusion du côté de la personne qui traite l'AP.
+
+--- Annaël Lalason ---
+[13:59] Donc.
+
+--- Jimmy RAMIAN ---
+[14:04] Au moins, il aura la visibilité sur ce qu'il a déjà vérifié et ce qui vient de tomber, c'est-à-dire la facture corrigée.
+[14:15] Comme ça, dès que la personne regarde la ligne, ouais, cette partie-là, je l'ai déjà vue, mais du coup, la personne, c'était pas correct, la personne a envoyé une autre facture.
+
+--- Annaël Lalason ---
+[14:25] Donc.
+
+--- Jimmy RAMIAN ---
+[14:36] Normalement, dans la logique, les collaborateurs, quand ils s'absentent, ils vont créer un libellé, ils vont indiquer dans sa facture la date ou les durées d'absence qui vont être déduites de la facture.
+[14:50] Donc on va se focaliser sur ces libellés-là.
+[14:54] On va les extraire et on va les comparer aux demandes, déclarations d'absence qu'on a récupérées ici sur la première partie du workflow.
+[15:03] On va vérifier la cohérence.
+[15:05] Est-ce que toutes les dates d'absence ont été indiquées dans la facture ou pas?
+[15:13] Comment on va faire pour que ça soit plus pratique?
+[15:16] On sait tous qu'on crée notre facture à partir du 24, 25 du mois.
+[15:22] On reçoit le mail de l'ARH pour la préparation de facture.
+[15:26] Ce qu'on va faire, ce qui est pratique pour la partie compta également, Les absences à déduire sur la paie du mois en cours, ce sont les absences du 21 du mois d'avant jusqu'au 20 du mois de paie.
+[15:44] Par exemple, si on traite la facture du mois de février, les absences qu'on va prendre, ce sont les absences depuis le 21 janvier jusqu'au 20 février.
+[15:57] Pourquoi comme ça, au moment où on envoie la facture le 25 du mois, il n'y aura plus des absences du 24, par exemple, qu'on doit rattraper en retard alors que le hors-clos a déjà été déclenché?
+[16:09] Les absences après le 20, ça va être déduit, après le 20, oui, ça va être déduit de la facture du mois d'après.
+
+--- Annaël Lalason ---
+[16:19] D'accord, ok.
+
+--- Jimmy RAMIAN ---
+[16:22] Ça permettra également d'envoyer un récap global, d'alimenter le fichier de facturation des collaborateurs et de donner ces informations-là à la personne qui va gérer l'AP.
+
+--- Annaël Lalason ---
+[16:36] Cinq sur cinq.
+[16:41] Super.
+
+--- Jimmy RAMIAN ---
+[16:43] Donc, du coup, on va tout de même vérifier, comme j'ai dit tout à l'heure, est-ce que les...
+[16:50] L'absence dans la facture de talent correspond aux demandes d'absence qu'on a dans notre demande d'absence Google Form.
+[17:00] Sinon, du coup, on va alimenter le board et il faut que ça passe par une validation humaine, une vérification humaine sur la cohérence.
+[17:08] Par contre, on va quand même lui fournir un résumé de quelles sont les incohérences détectées.
+
+--- Annaël Lalason ---
+[17:20] Je me demandais si je pouvais en.
+[17:35] Fait mettre un commentaire, mais non, je crois que c'est mémorisé.
+[17:38] De toute façon, on a déjà le note taker.
+
+--- Jimmy RAMIAN ---
+[17:43] J'ai pas encore l'accès, c'est en mode gratis mail.
+
+--- Annaël Lalason ---
+[17:47] T'inquiète, ça va.
+
+--- Jimmy RAMIAN ---
+[17:52] Donc si cela correspond, dans la majorité des cas, s'il n'y a pas d'absence, du coup, ça va correspondre.
+[18:00] On continue le workflow et on va faire comme les cas des clients, on va faire le calcul des pro-rata en fonction de la période, etc., des absences.
+[18:13] des congés et des primes.
+
+--- Annaël Lalason ---
+[18:15] Question.
+[18:16] Qu'est-ce qui se passe?
+[18:18] Je crois que tu l'as déjà dit.
+[18:21] Mais je n'étais pas sûr.
+[18:23] Qu'est-ce qui se passe en fait si l'absence dans le facture et l'absence qui est dans le Google Forms ne sont pas similaires, ne sont pas concordants?
+
+--- Jimmy RAMIAN ---
+[18:34] Donc, on va alimenter le board.
+[18:37] Par contre, on va mettre un tag absence à vérifier et on va faire un résumé de l'incohérence.
+
+--- Annaël Lalason ---
+[18:43] Ah, d'accord.
+
+--- Jimmy RAMIAN ---
+[18:45] C'est ce qui est incroyable.
+
+--- Annaël Lalason ---
+[18:47] OK.
+[18:47] Et c'est quoi F Talent?
+
+--- Jimmy RAMIAN ---
+[18:50] Facture Talent.
+[18:51] Je les ai expliqués un peu plus tôt.
+
+--- Annaël Lalason ---
+[18:54] Ah oui, mais en fait, où se trouve le board actuellement?
+
+--- Jimmy RAMIAN ---
+[19:00] Ma proposition, c'est restable, mais on va en discuter si vous trouvez un autre outil qui sait gérer les lignes et les colonnes et qui est facile à utiliser.
+
+--- Annaël Lalason ---
+[19:11] On reste sur Airtable alors.
+[19:13] Ah, je croyais que c'était déjà mis en place.
+
+--- Jimmy RAMIAN ---
+[19:16] On est en mode test, on est en mode test sur Airtable.
+[19:19] Je vois que ça fonctionne quand même pas mal.
+[19:24] Je vous donne les accès, après vous vérifiez la faisabilité et surtout la praticité quand on va mettre en place le workflow de votre côté.
+[19:33] Et on va continuer sur ça s'il n'y a pas d'autres propositions.
+
+--- Annaël Lalason ---
+[19:37] Je crois qu'AirTable c'est top.
+[19:40] Donc on a la version payante d'AirTable normalement.
+
+--- Jimmy RAMIAN ---
+[19:44] Monsieur Julien il est là, on peut en prendre du coup si tout le monde n'est pas lié d'utiliser AirTable.
+
+--- Annaël Lalason ---
+[19:52] Monsieur Julien?
+[19:54] Il ne faut pas être atteint avec les cartes crédits.
+[20:00] On a besoin d'AirTable.
+
+--- Julien Prevost ---
+[20:02] Oui bah vas-y.
+
+--- Annaël Lalason ---
+[20:03] Merci.
+
+--- Jimmy RAMIAN ---
+[20:08] Et ça, c'est un point très, très important aussi après le calcul des pro-rata.
+[20:15] Normalement, quand l'équipe commerciale valide la facture, ils auront à peu près aussi une visibilité sur combien on va payer pour les talents.
+[20:26] Du coup, on va venir vérifier la cohérence entre la facture client et la facture envoyée par les talents.
+[20:34] C'est très important parce que je vous donne juste un exemple.
+[20:39] Quand on crée un collaborateur, il décide d'augmenter son salaire alors que ce n'était pas vu ni avec le client ni avec l'équipe commerciale.
+[20:49] Du coup, ça crée des incohérences partout.
+[20:52] C'est pour ça qu'on aura besoin de vérifier justement cette cohérence-là.
+[20:56] Et c'est ça aussi la nécessité du pourquoi on aura besoin de la validation humaine que j'ai mise ici.
+
+--- Annaël Lalason ---
+[21:04] Donc.
+[21:10] Dans cette partie-là, on a une interaction humaine avec le système sur la vérification de cohérence.
+
+--- Jimmy RAMIAN ---
+[21:21] Non, ça, on va directement lui fournir les bons éléments du côté du client à partir de cette étape, sur cette étape.
+[21:31] du coup ici, il va juste utiliser ce qu'on a vu tout à l'heure.
+[21:34] Ici, si ce n'est pas cohérent, du coup ça passe par une validation humaine.
+[21:37] Par contre, si c'est cohérent, il va directement faire la vérification avec la facturation du client.
+
+--- Annaël Lalason ---
+[21:44] Pourquoi?
+
+--- Jimmy RAMIAN ---
+[21:44] Puisque si ici c'est cohérent, du coup c'est bon, la partie facturation talent.
+[21:49] Ici, c'est directement bon à 100% des cas.
+[21:52] Pourquoi?
+[21:53] Puisque on passait par une validation humaine juste avant.
+
+--- Annaël Lalason ---
+[21:56] D'accord, ok.
+
+--- Jimmy RAMIAN ---
+[21:59] Donc, arrivé à cette étape, notre flot aura directement toutes les informations pertinentes à utiliser.
+[22:06] Les cas échéants, on les a déjà presque supprimés en cours de route.
+
+--- Annaël Lalason ---
+[22:11] Compris.
+
+--- Jimmy RAMIAN ---
+[22:17] Et si ce n'est pas cohérent, du.
+
+--- Annaël Lalason ---
+[22:19] Coup.
+
+--- Jimmy RAMIAN ---
+[22:21] On va mettre un tag comme tout à l'heure, comme sur la partie absence, avec un résumé de ce qui n'est pas cohérent pour qu'un humain derrière puisse vérifier.
+[22:31] Si c'est cohérent, du coup, on va créer directement une tâche pour que notre compta puisse créer et éditer la facture du client.
+[22:45] Et ça, c'est la première partie, du coup.
+
+--- Annaël Lalason ---
+[22:49] D'accord.
+[22:51] Ouais.
+[22:52] Je crois que j'ai compris cette partie-là.
+
+--- Julien Prevost ---
+[22:55] Mais Jim, en fait, quand tu dis que t'as pas fini la RH, ta compta, elle est liée avec la RH, avec une partie de la RH?
+
+--- Annaël Lalason ---
+[23:02] Non.
+
+--- Julien Prevost ---
+[23:05] Bah si, parce que ça prend en compte les arrêts de mi-temps, les congés.
+
+--- Jimmy RAMIAN ---
+[23:14] Les congés, c'est déjà en place.
+[23:16] Les arrêts de mi-temps, on aura juste besoin d'une base.
+[23:20] C'est pour ça qu'il y a la validation qui est ici.
+[23:23] On aura juste besoin de la liste des collaborateurs, les salaires de base, etc.
+[23:27] C'est tout.
+[23:28] Et ça n'a rien à voir avec le workflow RH.
+
+--- Julien Prevost ---
+[23:32] Oui, mais ce que je veux dire, c'est que ça se rejoint quand même.
+[23:34] Ça évite les erreurs qu'on a aujourd'hui.
+
+--- Jimmy RAMIAN ---
+[23:37] C'est ça.
+
+--- Julien Prevost ---
+[23:38] Ça évite les erreurs de report qu'on a aujourd'hui.
+[23:40] Est-ce qu'il y a aussi, quand quelqu'un passe demi-temps à plein temps, c'est prévu aussi?
+
+--- Jimmy RAMIAN ---
+[23:48] C'est dans la validation, la vérification et validation des éléments.
+[23:54] Puisque c'est à ce moment-là qu'on va vérifier si les éléments préparés par l'IA sont à jour, s'ils sont corrects.
+[24:03] Tu vois, avant, ce qu'on fait, c'est qu'on alimente le compte d'exploitation manuellement, etc.
+[24:08] Du coup, au lieu de faire ça, on va juste faire une vérification et une validation.
+[24:12] Je pense que c'est la ligne qui.
+
+--- Julien Prevost ---
+[24:13] Est...
+[24:14] Est-ce qu'on pourrait pas aussi, pour être sûr, pour se mettre un autre garde-fou, que l'IA, il aille scraper la boîte mail RH et compta?
+[24:27] pour vérifier que ce qui a été mis à jour par le RH dans ce tableau-là, il n'a pas oublié d'information.
+
+--- Jimmy RAMIAN ---
+[24:37] Techniquement, comment ça marche, Naël?
+
+--- Annaël Lalason ---
+[24:43] Techniquement, ça implique beaucoup de scrapping de données.
+[24:53] Si on va analyser à chaque entrée d'email, on devrait stocker ça quelque part, et on aura un IA qui va vérifier les cohérences des données, par exemple sur l'email du RH et sur l'email du compta.
+[25:09] Techniquement parlant.
+[25:13] Sinon on va scraper tout.
+[25:15] Ça, ça reste beaucoup, mais beaucoup de données à traiter à chaque fois.
+
+--- Jimmy RAMIAN ---
+[25:20] Par contre, Julien, ce que j'en ai parlé à Pahine mercredi, c'est que pour toutes les demandes liées à la partie compta et RH, on va faire comme les systèmes de ticketing, comme JIRA.
+[25:38] Du coup, quand tu as une demande à faire à Sanji, par exemple, tu ne le lui envoies pas par WhatsApp, puisque c'est pour ça qu'on n'arrête pas d'avoir des dispersions d'informations.
+[25:47] Tu crées un ticket, voici une information à prendre en compte pour la facturation de tel client.
+[25:54] Et c'est cette phase-là qu'on va venir analyser au lieu d'aller scraper tous les échanges.
+
+--- Annaël Lalason ---
+[26:01] Sur Slack aussi, ça peut être top.
+
+--- Jimmy RAMIAN ---
+[26:05] Sur Slack.
+
+--- Annaël Lalason ---
+[26:10] Si c'est comme ça, je crois que c'est plus facile.
+[26:13] C'est plus facile à maintenir parce que si on va scraper tous les e-mails, les comptables derrière RH, ça risque d'avoir beaucoup de données à traiter et ça augmente plus les incohérences.
+
+--- Julien Prevost ---
+[26:25] En fait, avec ton workflow, on va aller récupérer les données mises à jour dans un sheet par le RH.
+
+--- Jimmy RAMIAN ---
+[26:33] C'est ça.
+
+--- Julien Prevost ---
+[26:34] Mais si le RH loupe une information, ça nous crée quand même des incohérences sur les factures.
+
+--- Jimmy RAMIAN ---
+[26:41] C'est pour ça que tu vas venir vérifier et valider avant de l'envoyer.
+[26:46] Tu vois, on récupère notre base.
+[26:48] Si on ne passe pas par la validation humaine tout automatisé, on récupère directement la base, on calcule la prorata, etc., et basta.
+[26:57] Mais par contre, comme garde-fous, on va te fournir les éléments à facturer pour ce mois.
+[27:02] Est-ce que tu es d'accord avec ça avant que je continue le workflow?
+[27:06] À ce moment-là, s'il s'est passé une interaction avec un client ou un changement, tu vas forcément t'en rendre compte pendant la vérification.
+[27:15] Ça va déclencher dans ta tête, ah ouais, c'est vrai, pour AFTP, on a changé en mi-temps, en plein temps, etc.
+[27:22] Ah ouais, pour ce collaborateur, on l'a déjà arrêté.
+[27:28] Pépite, hein?
+
+--- Julien Prevost ---
+[27:32] Donc à ce moment là tu me mets en automatisation quand tout est fini, dans une date précise dans le mois, t'envoies par mail ce tableau à Marcel et moi-même.
+
+--- Jimmy RAMIAN ---
+[27:42] Oui c'est ça.
+
+--- Julien Prevost ---
+[27:44] Comme ça on a une notif comme quoi faut vérifier ça et le valider je sais pas où.
+[27:48] T'auras mis un truc dans le tableau Excel pour le valider?
+
+--- Jimmy RAMIAN ---
+[27:52] Oui.
+
+--- Annaël Lalason ---
+[27:54] On était pas censé utiliser Rtable?
+
+--- Jimmy RAMIAN ---
+[27:59] Non on utilisait Rtable mais pas...
+
+--- Annaël Lalason ---
+[28:04] Et.
+
+--- Julien Prevost ---
+[28:04] RTB ça bug hein?
+
+--- Annaël Lalason ---
+[28:06] Bah ça bug pas hein!
+
+--- Julien Prevost ---
+[28:07] Si si bah je te le dis j'ai fait les dernières payes que j'ai fait dessus ça chargeait à chaque fois que je m'étais payé.
+
+--- Annaël Lalason ---
+[28:14] Bah je crois que c'est une erreur de manipulation le boss.
+[28:17] Parce que RTB c'est plus fiable que Bullshit.
+
+--- Julien Prevost ---
+[28:21] En tout cas c'est moins rapide l'erreur de manipulation faut demander à Jim ça je sais pas c'est pas moi qui l'ai manipulé mais quand je le changeais il m'a mis des menus déroulants.
+[28:31] je payais un tel et ça chargeait pendant au moins 3 secondes.
+
+--- Jimmy RAMIAN ---
+[28:36] Je pense que c'était un moment où j'ai dépassé la limite des bases puisque sur la version gratuite on ne peut pas dépasser les 1000 entrées par base alors que moi j'ai essayé de renseigner toutes les infos de CEP dedans.
+[28:50] Je l'ai supprimé d'ailleurs, tu peux revenir là-dessus et refaire un test et me tenir au courant parce que j'ai déjà supprimé la base CEP.
+[29:10] Tu as une date de préférence pour la notification par mail ou pas du tout?
+[29:14] Parce que là on s'est dit que tout le monde va payer avant le.
+
+--- Annaël Lalason ---
+[29:20] 5 du mois, c'est ça?
+
+--- Jimmy RAMIAN ---
+[29:21] Pour les clients?
+
+--- Julien Prevost ---
+[29:23] Non non, ils doivent payer en début de période maintenant, on va faire en sorte qu'ils payent le plus tôt possible.
+
+--- Jimmy RAMIAN ---
+[29:32] Bah du coup le 20 du mois?
+
+--- Julien Prevost ---
+[29:38] Pour vérifier les factures qui partent au client?
+
+--- Jimmy RAMIAN ---
+[29:41] Oui.
+
+--- Julien Prevost ---
+[29:43] Le 20 du mois précédant la période suivante?
+
+--- Jimmy RAMIAN ---
+[29:47] Oui, c'est ça.
+
+--- Julien Prevost ---
+[29:49] Oui, par exemple, oui.
+
+--- Jimmy RAMIAN ---
+[29:50] Pour le mois de février, tu vas recevoir une vérification.
+
+--- Julien Prevost ---
+[29:52] Et les écarts, est-ce qu'on vérifie les écarts sur les...
+[29:56] Parce que dans ton overflow, il y a aussi les factures, la vérification des factures avant, non?
+
+--- Jimmy RAMIAN ---
+[30:03] Si c'est cohérent, ça passe par l'automatisation.
+[30:05] Si les absences ne sont pas cohérentes, ça passe par une vérification humaine.
+[30:10] Du coup, c'est Sanjay et la RH qui vont recevoir la notification pour vérifier la cohérence des absences.
+
+--- Julien Prevost ---
+[30:16] Non, le problème, c'est qu'il faut que ça soit automatisé, parce que le problème, c'est qu'elle fait des erreurs.
+[30:22] Elle ne sait pas vérifier un tableau.
+
+--- Jimmy RAMIAN ---
+[30:25] Ici, ce n'est pas vraiment une vérification, mais c'est une décision qu'on va prendre.
+[30:31] C'est-à-dire, est-ce qu'on va récupérer les absences déclarées par le collaborateur dans sa facture?
+[30:37] Ou est-ce qu'on va récupérer les absences déclarées par le collaborateur dans le Google.
+
+--- Annaël Lalason ---
+[30:41] Sheet tout au long du mois?
+
+--- Julien Prevost ---
+[30:45] On va récupérer les absences qui sont déclarées par le collaborateur et les vérifier sur sa facture.
+
+--- Jimmy RAMIAN ---
+[30:54] Et si ce n'est pas cohérent, on va prendre quelle donnée?
+[30:56] C'est ça la décision qu'on doit prendre.
+
+--- Julien Prevost ---
+[30:58] Voilà, notre, c'est la donnée RH qui compte.
+[31:00] Et c'est là qu'on va définir une anomalie.
+[31:02] Parce qu'en plus, si on ne met pas d'OCR, on ne va pas pouvoir analyser les factures envoyées par les agents.
+[31:07] Donc ça, ça doit être humain.
+[31:08] Ça doit être le seul travail qu'elle doit faire.
+[31:10] Il doit y avoir ton tableau avec marqué tout ce que les agents doivent nous facturer.
+[31:15] Elle va ouvrir les factures des agents et avant de les passer dans mon spectre de paiement, elle va vérifier que ça correspond à l'automatisation.
+[31:23] Et si ça ne correspond pas entre la facture de l'agent et ce qu'on a sur le tableau de l'automatisation, c'est là qu'on doit mener une recherche.
+
+--- Jimmy RAMIAN ---
+[31:32] Mais c'est déjà le cas ici, Julien?
+
+--- Julien Prevost ---
+[31:38] Très bien alors.
+
+--- Jimmy RAMIAN ---
+[31:39] Puisque si ce n'est pas cohérent, on va quand même venir faire une vérification humaine derrière si ce n'est pas cohérent.
+
+--- Julien Prevost ---
+[31:46] Et comment tu peux savoir que c'est cohérent vu qu'on ne va pas analyser les factures des agents?
+[31:51] C'est ça que je ne comprends pas.
+
+--- Jimmy RAMIAN ---
+[31:52] C'est ce que je me suis expliqué à Naël tout à l'heure.
+[31:56] On ne va pas aller analyser avec OCR le PDF.
+[32:03] avant la création de PDF même, on va récupérer toutes les informations renseignées par le collaborateur dans sa facture.
+[32:10] Et c'est ce qui va déclencher notre workflow, mais pas le PDF.
+
+--- Annaël Lalason ---
+[32:13] Je ne comprends pas pourquoi tu fais ça.
+
+--- Julien Prevost ---
+[32:15] Puisqu'un agent met sa facture en PDF, comment tu vérifies les données qu'il a mises dans sa facture sans analyser sa facture?
+
+--- Jimmy RAMIAN ---
+[32:22] Ok, tu vois mon écran?
+[32:25] Oui.
+[32:26] Pour créer une facture, un collaborateur va passer par ce fichier.
+[32:30] Tout le monde aujourd'hui, depuis presque un an déjà, utilise ce fichier.
+
+--- Julien Prevost ---
+[32:34] Ah bon?
+
+--- Jimmy RAMIAN ---
+[32:35] OK.
+[32:35] Du coup, il renseigne les informations qui vont être dans le PDF, qui va être créé par ce même fichier, dans ce template-là.
+[32:45] Du coup, il a toutes les informations.
+
+--- Julien Prevost ---
+[32:48] Chaque collaborateur reçoit le montant et c'est à lui de le valider, le montant.
+
+--- Jimmy RAMIAN ---
+[32:56] Non.
+[32:58] Quand la RH envoie le mail de préparation de facture, les collaborateurs, moi, par exemple, je vais dans ce fichier, je vais renseigner les libellés.
+[33:10] Après avoir renseigné les libellés, je vais cliquer sur ce bouton « Créer un PDF ».
+[33:15] Et c'est ce qui va créer le PDF que le collaborateur envoie, vous envoie, à toi, Marcel et Laconta.
+
+--- Julien Prevost ---
+[33:24] Par mail.
+[33:25] Donc il n'y a aucun moment où il peut intervenir et mettre autre chose sur sa facture que ce qu'il a.
+
+--- Annaël Lalason ---
+[33:29] Marqué là?
+
+--- Jimmy RAMIAN ---
+[33:31] Oui, oui.
+[33:32] À.
+
+--- Julien Prevost ---
+[33:32] Aucun moment.
+[33:32] Parce qu'il y a quelqu'un qui pourrait très bien rentrer 500 euros dans ce fichier-là et après t'envoyer une facture PDF.
+
+--- Jimmy RAMIAN ---
+[33:43] Marquée 600?
+[33:45] C'est.
+
+--- Annaël Lalason ---
+[33:47] Pas.
+
+--- Julien Prevost ---
+[33:47] Possible.
+[33:48] Ok.
+[33:53] Ok, donc le croisement des données entre ce que nous on a et ce que l'agent reporte, il est fait automatiquement.
+[34:00] Donc s'il y a une anomalie qui est détectée, on va le savoir tout de suite, on n'a pas.
+
+--- Jimmy RAMIAN ---
+[34:04] Besoin d'humains.
+[34:06] Oui, ça va se savoir tout de suite, mais pour la décision qu'on va prendre après, il faut que ce soit un humain qui le fasse.
+[34:16] Ou est-ce que tu veux.
+
+--- Julien Prevost ---
+[34:16] Qu'On… Oui, il revérifie, mais il revérifie un système qui n'est pas censé avoir d'erreur, on.
+
+--- Jimmy RAMIAN ---
+[34:21] Est d'accord.
+[34:22] C'est.
+
+--- Julien Prevost ---
+[34:23] Ça, oui.
+[34:23] Oui, OK.
+[34:24] C'est un deuxième garde-fou au cas où il y a des connes, mais il ne peut pas y avoir de mauvaise décision humaine dans.
+
+--- Jimmy RAMIAN ---
+[34:32] Ce processus.
+[34:33] Et de toute façon, l'exemple que tu as pris tout à l'heure, s'il va créer sa facture ici, 500 euros, et qu'il va nous envoyer le PDF à 600 euros, personne ne va regarder le PDF en vrai.
+[34:44] Pourquoi?
+[34:45] Puisqu'on va juste se baser les informations.
+[34:47] Dans le PDF, c'est censé être les informations qui sont ici.
+[34:51] Et nous, on ne va même pas aller lire.
+
+--- Annaël Lalason ---
+[34:52] Le.
+
+--- Jimmy RAMIAN ---
+[34:52] PDF.
+[34:53] Pourquoi?
+[34:53] Puisqu'on va venir récupérer les.
+
+--- Julien Prevost ---
+[34:54] Informations ici.
+[34:56] Oui, mais donc la facture qu'il envoie, Là quand tu fais créer le PDF, la facture elle est envoyée par quelle.
+
+--- Jimmy RAMIAN ---
+[35:03] Boîte mail?
+[35:05] C'est pas encore envoyé, ça va être stocké dans.
+
+--- Julien Prevost ---
+[35:07] Le drive.
+[35:08] Ah ok, donc ils ne peuvent pas court-circuiter.
+
+--- Jimmy RAMIAN ---
+[35:10] Le.
+
+--- Julien Prevost ---
+[35:10] Truc.
+[35:10] Non.
+[35:11] Ok, ok.
+
+--- Annaël Lalason ---
+[35:14] Très bien.
+[35:17] Petite remarque, je crois qu'on ne va plus utiliser cette formulaire.
+[35:23] Certes ça va être un peu difficile le temps d'adaptation avec tous les collaborateurs, Mais je trouve qu'un Google Sheet pour gérer ce genre d'informations, ce n'est pas très adapté pour moi.
+[35:36] Parce qu'en fait, on risque toujours des fuites de données.
+[35:40] Par exemple ici, on revient sur le Google Sheet s'il te plaît.
+[35:44] Par exemple là, tu utilises un Apps Script pour envoyer les données.
+[35:48] par exemple sur un Rtable ou quelque chose de similaire.
+[35:52] Si on va même connecter un end-to-end qui va écouter chaque envoi de données à partir de Apps Script, etc.
+[36:00] Ça risquerait, si quelqu'un sait intercepter ce genre de données-là, il va juste s'en inspecter, voir comment ça fonctionne, et après il pourrait intercepter les données à envoyer dans Rtable.
+[36:14] Et pour moi, c'est pas très safe, à mon avis, en tout cas.
+[36:23] Mais ça, ça implique aussi plus de travail parce qu'on va recréer toute cette partie-là, tout ce premier process.
+[36:31] On va se focaliser sur ce premier process.
+[36:34] de création de factures et d'envoi de factures, parce que si cette partie-là a été bien faite, on peut créer une facture, le collaborateur peut vérifier toutes ces factures, toutes ces entrées, par exemple, parce que ça va générer automatiquement, par exemple, la facture virtuelle pour que le collaborateur voit son facture.
+[36:55] et après, il pourra valider celui-ci et envoyer.
+[36:59] Premièrement, ça nous évite les erreurs humaines, comme on a parlé.
+[37:05] Les erreurs humaines, ça permet de faire une première validation.
+[37:09] Et deuxièmement, on aura un retour de données qui est plus safe, qui est plus safe, je dirais, parce que ça nous permet, en fait, de sécuriser les envois de formation et pour que les collaborateurs ne falsifient pas tentent.
+[37:25] De faire quelque chose sur.
+[37:26] Le système.
+[37:28] Pour le reste du workflow, si on réussit de faire cette partie-là, sur le reste.
+[37:34] Du workflow, que je.
+[37:37] Vérifie, on a directement, on passe directement sur l'intégration de factures, récupération d'informations, on passe directement sur, ici, la partie gestion de doublons, et on passe directement sur la validation.
+[37:54] Mais certes, cette partie-là, vu qu'on ne parle pas sur du existant, on va créer notre existant.
+[38:01] Cette partie-là, on va prendre plus de temps pour faire cette partie.
+[38:06] La facturation de talent, les confirmations, les factures.
+[38:13] L'Occupation, etc.
+[38:15] Mais je crois que plutôt.
+[38:17] Que de mettre la demande de congé, la confirmation de demande de congé, où cette validation-là...
+[38:24] Est-ce que...
+[38:24] Ah, tu ne vois pas mon.
+
+--- Jimmy RAMIAN ---
+[38:25] Écran, putain.
+[38:26] Je vois ton curseur dans le.
+
+--- Annaël Lalason ---
+[38:29] Workflow, là.
+[38:30] Ah, OK, ça marche.
+[38:32] Au lieu de passer cette partie-là avant la création de facture, on va le mettre après.
+[38:40] Pourquoi?
+[38:41] Parce que ça nous permet en fait de réconfirmer, ça nous permet en fait de ne pas mettre un human in loop sur cette partie à l'interaction humaine, mais c'est le système qui va comparer les données qui sont envoyées par le collaborateur et les données qui sont existantes chez nous.
+[38:56] ça nous permettra de faire ça.
+[38:58] Et s'il y a d'autres anomalies ou quelque chose de similaire, quelque chose de similaire, ça va piper, ça va envoyer directement des informations vers la RH ou.
+[39:12] Le compta.
+[39:13] C'est juste un.
+
+--- Jimmy RAMIAN ---
+[39:14] Adresse e-mail.
+[39:16] Oui, vas-y, continue, il n'y a pas de soucis, j'ai dit.
+[39:20] J'ai dit il n'y a pas.
+
+--- Annaël Lalason ---
+[39:23] De soucis.
+[39:27] Ok.
+[39:28] Et sur cette partie-là, en fait, pourquoi faire la validation des primes, des demandes de congés, etc., sur cette validation-là, pourquoi le faire après la création de facture?
+[39:43] Parce qu'on part sur une...
+[39:49] sur une donnée propre dès le début.
+[39:52] On va simuler que les données sont propres, donc le talent fournit les bonnes informations et les informations sont vraies.
+[39:58] Et s'il donne des informations qui sont erronées, ça nous évite de demander à chaque RH de refaire des vérifications et d'appeler.
+[40:07] Ça va faire un boucle qui sera très embêtant à faire.
+[40:11] mais on va faire directement la validation avant la création de facture, et après la création de facture, pardon, et ça nous permet en fait de, si on veut aussi, de renvoyer un email vers le salon sans intervention RH pour dire que vous avez telle et telle objection, vous avez telle et telle absence, par exemple, sur cette durée-là, pourquoi ce n'est pas renseigné dans votre facture, ou vous avez telle et telle prime que vous devez toucher, pourquoi ce n'est pas renseigné dans votre facture.
+[40:40] Donc on aura une vérification système et c'est le système qui va envoyer les constats sur les vérifications chez le RH ou le compta par exemple et aussi chez.
+
+--- Jimmy RAMIAN ---
+[40:54] Le talent.
+[40:55] Ok, il n'y a pas de souci.
+[40:57] Je t'explique juste la logique du overflow, pourquoi les demandes de congés d'absence, ça passe avant la création de facture, puisque la création de facture, c'est le 25 du mois.
+[41:06] Si tu t'absentes le 1er du mois, tu vas le renseigner à le 2 du mois ou plus tard, mais pas après la création de ta facture.
+[41:15] Du coup, les tâches que tu as là, ce sont des tâches manuelles.
+[41:18] C'est pour ça que je les ai mises en.
+
+--- Julien Prevost ---
+[41:20] Très.
+
+--- Jimmy RAMIAN ---
+[41:20] Coupé.
+[41:22] D'accord.
+[41:23] Avant la création de facture, du 21 jusqu'au 20 du mois.
+[41:31] Il y a les demandes de congés du 19, du 18, du 10, etc.
+[41:34] Il y a les informations du prime.
+[41:36] Sur ce mois, tu peux rajouter tel montant de prime.
+[41:40] Du coup, il y aura toutes ces informations-là qui s'arrêtent le 20 du mois en cours.
+[41:45] Du coup, la création de facture, c'est autour du 24, 23.
+
+--- Annaël Lalason ---
+[41:49] Du mois.
+[41:51] D'accord.
+[41:52] Si c'est antérieur à la création de facture, l'absence est antérieur à la création de facture, on le prend en compte sur le facture qui vient d'être créée.
+[42:00] Si c'est plus la date.
+[42:03] De création de facture, donc on va.
+[42:04] Le prendre en compte sur la.
+
+--- Jimmy RAMIAN ---
+[42:06] Prochaine facture.
+[42:07] On va être beaucoup plus précis que ça.
+[42:09] Ce n'est pas avant ou après, c'est du 21.
+
+--- Annaël Lalason ---
+[42:12] Au 20.
+[42:14] D'accord, du 21 au 20.
+[42:16] OK.
+[42:16] Ça marche.
+[42:18] Du 21 au 20.
+[42:21] du.
+[42:21] 21 du mois précédent et du 21 au.
+
+--- Jimmy RAMIAN ---
+[42:23] Mois prochain.
+
+--- Annaël Lalason ---
+[42:24] C'est ça.
+[42:24] OK, ça marche.
+
+--- Jimmy RAMIAN ---
+[42:26] OK, OK.
+[42:27] C'est compris.
+[42:27] Comme je te disais tout à l'heure, Naël, remplacer le Google Sheet, pour moi, il n'y a pas de souci.
+[42:33] On peut rapidement déclencher des sessions avec les collaborateurs sur le nouvel outil de création de factures qu'on va mettre en place.
+[42:46] Sur ça, il n'y a pas.
+
+--- Annaël Lalason ---
+[42:47] De souci.
+[42:50] D'accord, c'est top.
+[42:51] C'est top, c'est top, c'est très top.
+[42:53] Pour moi.
+
+--- Julien Prevost ---
+[42:54] C'Est.
+
+--- Jimmy RAMIAN ---
+[42:54] OK.
+[42:55] OK.
+[42:56] Pour Mick, pour Jean-Yumé.
+
+--- Annaël Lalason ---
+[42:58] Pour Julien.
+[43:01] C'est bon pour moi aussi.
+[43:04] Pour moi, c'est bon.
+
+--- Julien Prevost ---
+[43:07] Aussi, oui.
+[43:08] Question là, les gars.
+[43:11] Sur ce que vient de faire Jim, vous ne pouvez pas travailler à trois.
+
+--- Annaël Lalason ---
+[43:14] Dessus.
+[43:14] Nael?
+[43:15] Non.
+[43:16] Non, on risquera de se piétiner dessus sur d'autres trucs.
+[43:22] Normalement, sur chaque workflow, on va mettre un gars.
+[43:25] Par exemple, cette workflow-là, c'est Mick qui va le prendre.
+[43:37] Jimmy disait qu'il avait encore besoin de Mic et on va mettre Jean-Rémi sur cette workflow par exemple et après sur le prochain workflow on va faire un petit round en fait.
+[43:51] Si quelqu'un se libère, il va prendre le prochain workflow et ainsi de suite.
+[43:57] Ça va nous permettre.
+
+--- Julien Prevost ---
+[43:58] D'Avancer rapidement.
+[43:59] Donc là Jean-Rémi il se met là-dessus, Jean-Rémi tout est ok pour toi.
+
+--- Jean Aimé ---
+[44:02] Sur celui-ci?
+[44:05] Oui, en fait, je comprends le workflow actuellement, mais on ne m'a pas encore vraiment expliqué les côtés fonctionnels.
+[44:19] C'est quoi les problématiques qu'on va vraiment résoudre?
+[44:24] Est-ce que c'est uniquement le chronophage, en tant que ça prend beaucoup de temps?
+[44:32] Il y a des erreurs que les talents font avec les clients.
+[44:39] En fait, toutes les différentes erreurs pour que je puisse vraiment les comprendre.
+
+--- Julien Prevost ---
+[44:47] En 360.
+[44:48] On a plusieurs erreurs.
+[44:50] On a des agents qui, des fois, vont facturer trop.
+[44:54] Par exemple, le mois dernier, il y a un agent qui n'avait eu aucune autorisation pour passer à plein temps.
+[44:58] Il s'est mis tout seul à plein temps dans sa facture alors qu'il est à mi-temps.
+[45:04] Et ça, ça a été détecté que le mois suivant, ce qui fait qu'on doit aller récupérer l'argent alors qu'il n'aurait pas dû sortir.
+[45:11] Ça, c'est un cas.
+[45:14] On a eu un autre cas plus grave où il y a un agent qui était passé à plein temps depuis cinq mois.
+[45:21] Il y avait eu la validation et la comptable s'est rendu compte.
+[45:24] Donc, on facturait depuis cinq mois un mi-temps au client et la comptable s'est rendu compte au bout de cinq mois seulement qu'il était passé à plein temps.
+[45:33] Donc ça c'est une grosse perte d'argent pour l'entreprise, après il faut aller batailler pour chercher l'argent, c'est ce qu'on est en train de faire.
+[45:42] Ok, parce qu'il y a un écart, nous on a payé l'agent à plein temps, mais on n'a pas facturé le client à plein temps, on l'a facturé à mi-temps, ça aurait jamais dû arriver.
+[45:50] Tu as des erreurs des fois tous les mois, enfin presque tous les mois, où le RH met dans son fichier qu'il y a eu une prime ou qu'il y a eu un congé ou qu'il y a eu 3 jours d'absence qui ont été reportés par le client ou par l'agent c'est bien dans le fichier RH mais dans la facture que la comptabilité va faire ce sera pas reporté donc on va facturer trop au client et donc le client forcément il est pas content il va dire mais je vous ai dit qu'il.
+
+--- Annaël Lalason ---
+[46:20] Y avait 3 jours en moins tu.
+
+--- Jean Aimé ---
+[46:25] Vois Oui, et ces données-là, est-ce que le RH ou le comptable, il fait la mise à jour dans RTBOL ou c'est où qu'il va...
+[46:38] par exemple, s'il.
+
+--- Annaël Lalason ---
+[46:38] Y a des changements ou comme ça, il entre où.
+
+--- Jimmy RAMIAN ---
+[46:45] Les données?
+[46:47] Dans le flow qu'on a, c'est dans RTBOL, puisqu'on va utiliser RTBOL.
+[46:51] Et du coup, cette partie-là, c'est dans la partie vérifier et valider.
+
+--- Jean Aimé ---
+[46:55] Les éléments.
+[46:59] Mais par exemple, il y a un erreur humain tout à l'heure, par exemple, une personne qui était en mi-temps, mais il touche un salaire à temps plein.
+[47:14] Donc, même un humain, il peut faire un erreur parce que les données qu'il fait référence peut-être, n'est pas à jour.
+[47:21] Donc, ma question, c'est, par exemple, s'il y a une mise à jour des congés ou des primes pour un collaborateur, c'est où ces données-là qu'on.
+
+--- Jimmy RAMIAN ---
+[47:35] Va récupérer?
+[47:37] Pour les congés, je t'ai mis le fichier, tu peux me poster ton adresse mail tout à l'heure, j'ai mis le lien aussi, comme ça je te donne l'accès.
+[47:46] Pour la prime, ça va être en RTBOL également, dans les éléments à facturer sur le mois.
+[47:52] Donc on aura la base qui va être vérifiée avant que l'on envoie à l'automatisation.
+[47:58] Et on a pour les absences, les congés, les permissions exceptionnelles, etc., on les aura dans.
+
+--- Julien Prevost ---
+[48:05] Ce.
+
+--- Jean Aimé ---
+[48:05] Lien-Là.
+[48:07] D'accord.
+[48:07] Donc les Google Suite et les Google Forms, il va insérer les données dans.
+
+--- Jimmy RAMIAN ---
+[48:12] Earthable aussi.
+[48:14] Il n'y a pas de souci, on peut.
+[48:16] Aujourd'hui, c'est encore sur Google Sheet, puisqu'on est limité avec la version gratuite.
+[48:21] Mais à partir du moment où on aura un abonnement, on peut faire ce qu'on veut.
+[48:24] On peut mettre directement ça.
+[48:25] C'est plus pratique d'ailleurs.
+[48:26] On peut le mettre directement dans.
+
+--- Jean Aimé ---
+[48:28] RT Polo.
+[48:29] Oui.
+
+--- Annaël Lalason ---
+[48:29] Très bien.
+[48:30] Il y a un truc.
+
+--- Julien Prevost ---
+[48:32] Jim, pour ne pas que ça soit oublié.
+[48:34] Des fois, on dit, passage implanté à partir de telle date.
+[48:37] Donc il faudrait, ça on peut le mettre dans le fichier, la date de passage à temps plein, les dates précises de congé, les dates.
+
+--- Jimmy RAMIAN ---
+[48:44] Précises d'absence?
+[48:46] Les dates précises de congé d'absence, oui c'est déjà inclus.
+[48:50] La date de passage à temps plein, on peut également les intégrer, la date de changement, et ça va être calculé au calcul.
+
+--- Julien Prevost ---
+[48:57] De prorata.
+[48:58] Donc je peux faire à l'avance, je peux dire par exemple le 10 avril, Jim va passer.
+
+--- Jimmy RAMIAN ---
+[49:03] À mi-temps.
+[49:04] C'est pour ça que j'ai proposé tout à l'heure le système de ticketing, ça centralise déjà la communication, ça évite les omissions, etc.
+[49:13] C'est facile au lieu d'analyser les échanges par mail comme on en a discuté tout à l'heure.
+[49:20] Du coup, tout ce qui est changement, on va les centraliser ou demande de modification, on va les centraliser dans une seule base avec, je ne sais pas, un petit Google Form ou sur Slack directement, c'est plus pratique aussi.
+[49:35] Et ce sont ces informations-là qu'on va venir analyser au lieu d'analyser la trace mail, les échanges par.
+
+--- Julien Prevost ---
+[49:40] Mail, pardon.
+[49:42] Oui, mais pourquoi on va dans ce slide, pourquoi on n'a même pas accès au R table pour mettre les congés, les absences et les primes à.
+
+--- Jimmy RAMIAN ---
+[49:52] Certaines personnes?
+[49:54] Les congés, les absences, les primes, ça c'est bon.
+[49:57] Mais là, ce que je suis en train de te parler, c'est les changements au niveau.
+
+--- Julien Prevost ---
+[50:00] Des contrats.
+[50:01] Parce que ce que je veux dire, un chargé d'affaires, il n'a pas besoin d'aller reporter au RH pour que le RH le mette dans le tableau.
+[50:07] Si on a décidé qu'il avait le droit de faire ce changement, on peut lui donner le droit à.
+
+--- Jimmy RAMIAN ---
+[50:11] Ce changement.
+
+--- Annaël Lalason ---
+[50:14] Ouais, ouais.
+[50:17] Faire en tout le monde ce qu'il y a.
+
+--- Julien Prevost ---
+[50:19] De mieux.
+[50:19] Il y a des personnes aujourd'hui qui doivent avoir les droits et qui ne sont pas en RH, qui doivent avoir les droits de faire.
+
+--- Jimmy RAMIAN ---
+[50:24] Ces changements.
+[50:27] Mais en fait, tu vois, mon objectif, c'est vraiment de centraliser la communication et que tout le monde soit notifié de quels changements ont eu lieu sur.
+
+--- Julien Prevost ---
+[50:34] Quels contrats.
+[50:36] En allant.
+
+--- Jimmy RAMIAN ---
+[50:36] Dans Slack.
+[50:38] en allant dans Slack par exemple, peu importe, tant que c'est centralisé et que l'IA peut.
+
+--- Julien Prevost ---
+[50:42] L'Analyser derrière.
+[50:44] Après, nous, on ne change pas le tableau, c'est l'IA qui agrège.
+
+--- Jimmy RAMIAN ---
+[50:47] Les.
+
+--- Julien Prevost ---
+[50:47] Informations.
+[50:48] Voilà.
+[50:49] OK, j'ai.
+
+--- Annaël Lalason ---
+[50:50] Compris.
+[50:51] OK.
+[50:52] OK, OK, ça.
+
+--- Jimmy RAMIAN ---
+[50:54] Me va.
+[50:56] Donc, je vais rajouter ça également, Jean-Yves.
+
+--- Annaël Lalason ---
+[50:58] Et Naël.
+[51:00] Je n'ai pas compris, tu disais faire en sorte.
+[51:04] Que l'IA...
+
+--- Jimmy RAMIAN ---
+[51:06] Faire quoi?
+[51:07] Tu vois sur les changements au cours de route, les changements de contrat, par exemple, il y a un contrat qui est censé être du 1er au 30 du mois.
+[51:17] Par contre, il y a eu un passage à temps plein, par exemple le 15 du mois, la facturation ne va pas être pareille.
+[51:26] Puisque du 1er au 14, du coup, ça va être facturé au même montant que les tarifs à temps partiel.
+[51:33] et du 15 jusqu'à la fin du mois, ça va être facturé au tarif du temps plein.
+[51:39] Et pour tracer ces changements-là et pour que l'IA puisse venir les analyser, pour faire les proratas, les calculs des proratas qui sont ici, il va venir analyser s'il y a eu des changements sur tel ou tel contrat pendant la période de facturation.
+[51:57] C'est exactement comme.
+
+--- Annaël Lalason ---
+[51:59] Les absences.
+[52:04] D'accord, j'ai compris, j'ai compris.
+[52:07] Et aussi, où sont renseignées.
+[52:09] Ces informations-là au cours.
+[52:12] De route?
+[52:13] Est-ce que ce sont les RH qui le met à jour dans le R-Table ou ce sont des informations qui se passent en externe.
+
+--- Jimmy RAMIAN ---
+[52:22] Du système?
+[52:24] Aujourd'hui, réellement, ce qui se passe, c'est qu'on envoie des notifications par mail ou par WhatsApp qui se dispersent partout et ça crée forcément.
+
+--- Jean Aimé ---
+[52:32] Des omissions.
+
+--- Jimmy RAMIAN ---
+[52:35] Des passages à côté et c'est pour ça que je t'ai demandé tout à l'heure si c'est plus pratique d'utiliser Slacks pour ce genre de changement.
+
+--- Annaël Lalason ---
+[52:43] Par exemple.
+[52:46] Normalement sur Slack, vu que Slack est fait pour ça, vu que Slack est fait pour être surveillé, je crois que sur Slack, ce serait top d'avoir ce genre de système dans Slack parce que ça nous permet en fait de créer un channel par exemple sur les changements de tarifs qui permet aux gens de discuter directement avec l'ARH ou un bot.
+[53:08] par exemple, et ça va directement, le bot ou le RH, ça va automatiquement modifier les informations dans RTable, ou il va confirmer par le.
+
+--- Jean Aimé ---
+[53:20] RH après.
+[53:21] Oui.
+
+--- Jimmy RAMIAN ---
+[53:21] C'Est ça.
+[53:22] L'objectif, c'est de gagner le plus de temps.
+[53:24] Par exemple, aujourd'hui, il y a un changement de passage en mi-temps.
+[53:27] Julien, il envoie juste une notification avec le template de message dans Slack, et c'est l'IA qui va venir faire la mise à jour et prendre en compte cette information-là pendant le calcul.
+
+--- Annaël Lalason ---
+[53:37] Des pro-rata.
+[53:39] D'accord, d'accord.
+[53:41] D'Accord, d'accord.
+[53:42] OK, c'est OK.
+
+--- Julien Prevost ---
+[53:44] Pour moi.
+[53:48] OK, c'est bon pour.
+
+--- Jimmy RAMIAN ---
+[53:50] Toi, Jean-Louis?
+[53:51] Il y a encore un petit bout de quelque chose.
+[53:54] Comment ça se passe exactement, le virement sur Revolut, quand tu fais le paiement des collaborateurs, Julien?
+[54:02] Parce que tu m'as envoyé un.
+
+--- Julien Prevost ---
+[54:03] Message là-dessus.
+[54:05] Là, ça va falloir le changer.
+[54:07] J'ai deux possibilités.
+[54:10] soit ça se fait directement par API et on fait confiance à ce qui a été fait c'est moins chaud pour cette solution pour le moment soit la solution que je voulais faire c'est on peut balancer un fichier CSV dedans comme ça moi ça me permet de le contrôler avant pour vérifier qu'il.
+
+--- Annaël Lalason ---
+[54:27] N'Y a pas d'erreur ok et l'idée.
+
+--- Julien Prevost ---
+[54:30] C'Est que je contrôle toi les données qui sont dans tes fichiers et que je vérifie qu'il n'y a pas d'anomalie qui s'est glissée avant de faire les virements ok Il y a deux garde-fous avant d'envoyer l'argent.
+[54:43] Il y a la comptable qui vérifie et ensuite il y a moi qui vérifie quand même derrière avec le tableau qu'il n'y ait pas d'erreur qui soit glissée dans le.
+
+--- Jimmy RAMIAN ---
+[54:50] Fichier CSV.
+[54:52] Je pense que le CSV c'est plus pratique.
+[54:57] Moi je pensais à un bouton par collaborateur avec un pré-remplissage des champs.
+[55:02] C'est pour ça que je t'ai posé la question.
+[55:04] Ok, je vais me pencher là-dessus, le temps que j'en aimé, prenons-en la.
+
+--- Annaël Lalason ---
+[55:09] Première partie.
+
+--- Julien Prevost ---
+[55:10] Et...
+[55:12] Oui?
+[55:13] Je vais.
+
+--- Annaël Lalason ---
+[55:13] Me regrouper.
+[55:15] Là.
+
+--- Julien Prevost ---
+[55:15] Je vais...
+[55:17] Je me suis laissé un point important parce que ça, ça me prend beaucoup de.
+
+--- Jimmy RAMIAN ---
+[55:20] Temps aussi.
+[55:22] Tu partages.
+
+--- Julien Prevost ---
+[55:23] Ton écran.
+[55:24] Je ne l'ai jamais utilisé mais j'ai ces possibilités là pour un virement groupé.
+[55:32] Nouveau format de.
+
+--- Annaël Lalason ---
+[55:32] Fichier disponible.
+[55:37] Pourquoi je ne vois pas le truc?
+[55:38] Ah ok.
+[55:39] C'Est ici.
+[55:40] Tu peux télécharger.
+
+--- Julien Prevost ---
+[55:41] Le modèle.
+[55:42] Ça c'est du manuel, c'est un peu pas pareil.
+
+--- Jimmy RAMIAN ---
+[55:47] Donc voilà.
+[55:49] Tu as téléchargé un modèle, tu peux m'envoyer le modèle s'il.
+
+--- Julien Prevost ---
+[55:53] Te plaît.
+[55:59] Le pays de destination.
+[56:02] Le pays de destination pour.
+
+--- Jimmy RAMIAN ---
+[56:04] Les.
+
+--- Annaël Lalason ---
+[56:05] Paiements.
+[56:07] Ouais.
+[56:07] Ah ouais, ben c'est...
+[56:11] Il y en a.
+
+--- Jimmy RAMIAN ---
+[56:12] Qui sont...
+
+--- Julien Prevost ---
+[56:14] En Belgique.
+[56:15] T'as.
+
+--- Jimmy RAMIAN ---
+[56:16] Belgique aussi?
+[56:17] Ouais, j'ai payé.
+
+--- Julien Prevost ---
+[56:18] Également.
+[56:20] Belgique.
+[56:21] Et on a un seul.
+
+--- Annaël Lalason ---
+[56:23] Mais on en a en Indonésie.
+[56:35] Il veut l'ouvrir.
+
+--- Julien Prevost ---
+[56:44] Sur Numbers.
+[56:45] Je te.
+
+--- Jimmy RAMIAN ---
+[56:46] L'Envoie.
+
+--- Julien Prevost ---
+[56:46] Direct.
+[56:48] Merci.
+[56:49] Mais ça, dans le rajouter en fin de workflow, ça, ce serait bien une fois que tout.
+
+--- Jimmy RAMIAN ---
+[56:59] Est.
+
+--- Annaël Lalason ---
+[56:59] Validé.
+
+--- Julien Prevost ---
+[57:01] OK.
+[57:05] Voilà.
+[57:09] OK, on est.
+
+--- Annaël Lalason ---
+[57:10] Bon là-dessus?
+[57:13] Je crois qu'on.
+
+--- Julien Prevost ---
+[57:14] Est bon.
+[57:15] Mick, il a terminé quand avec.
+
+--- Jimmy RAMIAN ---
+[57:18] Toi, Jim?
+[57:19] On va faire un call juste après, je pense d'ici mercredi, Mick.
+[57:23] Demain matin, Mick, on aura un call avec le cas de Revolut pour.
+
+--- Annaël Lalason ---
+[57:29] L'Histoire d'API.
+
+--- Jimmy RAMIAN ---
+[57:31] OK, d'accord.
+[57:34] Normalement, on peut faire directement la présentation à l'équipe.
+
+--- Annaël Lalason ---
+[57:41] Commerciale, non?
+[57:45] Ouais.
+[57:46] Et pour le serveur, pour faire.
+[57:49] Le test?
+[57:50] Ah putain.
+
+--- Jimmy RAMIAN ---
+[57:51] J'Ai oublié.
+[57:51] Je t'ai envoyé un truc, Naël, s'il te plaît, si tu peux juste m'envoyer le lien.
+
+--- Annaël Lalason ---
+[57:55] De Payment.
+[57:58] Ok, je suis sur la route et j'ai oublié...
+[58:03] Attends, donne-moi juste.
+[58:04] Deux secondes.
+
+--- Jimmy RAMIAN ---
+[58:05] Voilà, top.
+[58:12] J'ai une question qui n'a rien à voir, Julien.
+[58:15] Ma question, c'est juste le lien pour prendre le...
+
+--- Annaël Lalason ---
+[58:19] Le.
+[58:22] CR2.
+[58:23] Merci.
+[58:25] Je viens de l'envoyer, tu vas juste prendre la version OP, je crois que c'est.
+[58:30] Suffisant.
+
+--- Jimmy RAMIAN ---
+[58:31] OK.
+[58:31] Normalement.
+
+--- Annaël Lalason ---
+[58:32] Ça marche.
+[58:33] Ici, on va consommer plus de performance, je crois que la version PRO, ce sera.
+
+--- Jimmy RAMIAN ---
+[58:46] Plus adapté.
+[58:49] OK, on va prendre l'autre version déjà pour voir et on verra.
+
+--- Annaël Lalason ---
+[58:53] Au fil de...
+[58:55] Oui, c'est ce que je fais en.
+
+--- Jimmy RAMIAN ---
+[58:56] Ce moment.
+[58:57] On peut l'upgrader en fonction de nos besoins.
+
+--- Annaël Lalason ---
+[58:59] Aussi d'ailleurs.
+[59:00] Ça s'auto-upgrade.
+[59:03] En fait, Nick assure-toi de bien configurer le Kruk dès qu'il le prend.
+[59:09] Ce qui sera top, c'est que tu vas le prendre sur mon compte.
+[59:13] Ça me permet de faire mon.
+
+--- Jimmy RAMIAN ---
+[59:15] Monitoring après.
+[59:16] Ok, il n'y a pas de souci.
+[59:18] Je te reviens d'ici 30 minutes.
+
+--- Annaël Lalason ---
+[59:20] Entre comptes.
+[59:21] Mais le problème c'est que j'ai déjà le truc dans mon compte, j'ai déjà le version pro dans mon.
+[59:27] Compte et je crois pas que ça.
+
+--- Jimmy RAMIAN ---
+[59:28] Va marcher.
+[59:30] Mais du coup on fait comment?
+[59:31] On va le prendre avec l'adresse mail de l'assistante CEP et on te donne accès?
+[59:37] Comme ça tu peux faire.
+
+--- Annaël Lalason ---
+[59:38] Les monitorings?
+[59:40] Si tu veux, tu peux.
+[59:42] Le prendre pour Mika aussi parce que.
+
+--- Jimmy RAMIAN ---
+[59:43] J'Ai accès.
+[59:44] Ok.
+
+--- Julien Prevost ---
+[59:45] Ça marche.
+[59:46] Jim, j'ai une question à Bastien sur JoePilot justement.
+[59:50] Y a-t-il la possibilité de limiter le nombre de places par activité et.
+
+--- Jimmy RAMIAN ---
+[59:54] Par personne?
+[59:57] Justement, c'est la question que j'allais te poser tout à l'heure puisque j'en ai parlé à Tony jeudi.
+[60:03] Tu vois, sur la limite, le budget par salarié pour les CSE, est-ce qu'on va forcément renseigner les limites par salarié ou pas?
+[60:15] Par exemple, si le CSE fait du 50-50, c'est juste un exemple, mais on va rester sur 60-40 pour faciliter l'explication, et qu'ils vont financer 100 euros, normalement, la commande pour les salariés, c'est 100 euros.
+[60:27] pour avoir les.
+
+--- Julien Prevost ---
+[60:27] 200 euros.
+[60:28] Tu ne prends pas ça en compte dans ton calcul et dans tes limitations, puisque moi, en fait, quand je vois avec le client, peu importe, soit du 40, 60 ou du 50, 50, ce qui compte, c'est le montant qui est affiché pour le salarié.
+[60:39] Donc, on va dire, par exemple, le salarié ne doit pas dépenser plus de 100 euros ou 150 euros.
+[60:43] Donc, on s'en fout des.
+
+--- Jimmy RAMIAN ---
+[60:44] Pourcentages derrière.
+[60:46] Ça, je sais, mais du coup, on va afficher ça puisque tu sais très bien que ce n'est pas tout le monde qui commande.
+[60:53] Moi, je pensais à un truc de au moins 10% de budget total, le plaçant.
+
+--- Julien Prevost ---
+[61:00] Par salarié.
+[61:01] Dim, le fait que tout le monde ne commande pas, ça change quoi au calcul que je viens de.
+
+--- Jimmy RAMIAN ---
+[61:04] Te donner?
+[61:06] C'est juste que si on va limiter par exemple à 100 euros par salarié alors qu'ils ont 5 000 pour 50 salariés, on n'aura que la moitié.
+
+--- Julien Prevost ---
+[61:12] Des ventes.
+[61:14] Oui, alors ce n'est pas notre problème.
+[61:16] Mais on peut donner plus d'argent.
+[61:18] Par exemple, tu as 100 salariés.
+[61:22] À limiter à 100 euros, ça fait 10 000.
+[61:25] Mais il aura choisi le pack à 5 000.
+[61:28] Donc le potentiel max si tous les salariés commandent c'est 10 000 sauf qu'il a choisi le pack à 5 000.
+[61:33] Donc il y a un moment donné tous les salariés ne peuvent pas commander 100 euros.
+[61:36] Mais ça c'est pas notre problème.
+[61:39] C'était comme avant.
+[61:40] Si on arrive à là et que ça bloque on dira au CEO est-ce que vous voulez augmenter le plafond parce que tu vois.
+[61:46] Donc on s'en fout de la somme totale qu'ils ont choisie.
+[61:50] Enfin, on s'en fout que tous les salariés ne soient pas servis.
+[61:53] Nous, on a mis des garde-fous pour qu'il y ait des salariés qui n'abusent pas.
+[61:56] Pas pour que tout le monde.
+
+--- Annaël Lalason ---
+[61:57] Soit.
+
+--- Jimmy RAMIAN ---
+[61:57] Servi.
+[61:59] OK.
+[61:59] Cette partie-là, ça existe déjà, mais du coup, on n'a pas à changer.
+[62:04] Ça, ça existe déjà.
+[62:05] Par contre, le nombre de places par activité, je pense que Mick, on va l'intégrer dans la partie où le commercial, il va choisir les activités.
+[62:14] Tu.
+
+--- Annaël Lalason ---
+[62:14] T'En rappelles?
+[62:15] Oui, on avait déjà discuté.
+
+--- Jimmy RAMIAN ---
+[62:17] Je sais pas trop de là.
+[62:21] Ah oui, j'ai oublié.
+[62:23] Du coup, on a intégré ça sur la partie paramétrage des activités.
+
+--- Julien Prevost ---
+[62:27] Par opération.
+[62:28] OK, donc on va pouvoir aussi bien soit mettre 100 euros maximum de dépenses et ou, parce qu'il faut que ce soit cumulable si on veut, dire c'est 100 euros maximum de dépenses, certes, mais par exemple, Disney, c'est que.
+
+--- Jimmy RAMIAN ---
+[62:42] Deux places.
+
+--- Julien Prevost ---
+[62:43] C'est ça.
+[62:44] Beauval, c'est cinq places.
+[62:46] Et troisième quart, on ne met pas les deux, on retire le plafond et on fait juste des limitations par place sur.
+
+--- Jimmy RAMIAN ---
+[62:52] Certaines activités.
+[62:53] Il n'y a pas de souci.
+[62:54] On peut.
+
+--- Julien Prevost ---
+[62:54] Faire ça.
+[62:55] OK, très bien.
+[62:56] Donc ça, vous aurez terminé mercredi.
+[62:58] Donc, Mick, jeudi, il peut être sur une.
+
+--- Jimmy RAMIAN ---
+[63:00] Autre automatisation.
+[63:04] Je préfère quand même garder Mick sur cette semaine.
+[63:09] Comme ça, s'il y a des corrections ou des bugs à faire, on ne.
+
+--- Julien Prevost ---
+[63:14] Va pas...
+[63:16] Les RH, tu auras.
+
+--- Jimmy RAMIAN ---
+[63:20] Terminé quand?
+[63:21] Je vais terminer le workflow avant midi.
+[63:24] J'ai déjà démarré ce.
+
+--- Julien Prevost ---
+[63:26] Matin d'ailleurs.
+[63:26] Donc toi, Naël, tu peux attaquer le.
+
+--- Annaël Lalason ---
+[63:28] Workflow RH?
+[63:31] Il faut que je vérifie d'abord la liste de retraite parce qu'il faut vraiment qu'on facture le truc et après je pourrai attaquer.
+
+--- Julien Prevost ---
+[63:40] Sur ça.
+[63:40] Donc à partir.
+
+--- Annaël Lalason ---
+[63:41] De.
+[63:41] Quand?
+[63:42] Demain?
+[63:43] Demain ou après-demain, mercredi ou.
+
+--- Julien Prevost ---
+[63:45] Plus tard.
+[63:46] Ok donc mercredi on check ensemble, donc du coup avant mercredi?
+[63:51] Jim, on check avec Naël le workflow RH pour voir si tout est OK pour lui.
+[63:57] On fait une réunion à 3.
+[63:59] Et ensuite, même principe, quand Mick, il a terminé, soit en fin de semaine, soit lundi, mais le mieux, c'est qu'en fin de semaine, on vise fin de semaine vendredi, on présente à Mick le workflow pour les.
+
+--- Jimmy RAMIAN ---
+[64:10] Appels.
+
+--- Julien Prevost ---
+[64:11] D'Offres.
+[64:12] OK.
+[64:13] Et c'est lui qui se.
+
+--- Annaël Lalason ---
+[64:14] Mettra dessus.
+[64:15] Je crois que le appel d'offres, ça devrait être moi qui doit.
+
+--- Julien Prevost ---
+[64:19] Être dessus.
+[64:20] Tu préfères.
+
+--- Annaël Lalason ---
+[64:21] Faire.
+[64:21] L'Inverse?
+[64:23] Quoi?
+[64:25] Bon, Dominique va prendre le RH, moi je vais prendre l'appel d'offres.
+[64:30] Parce qu'en fait, on a discuté de ça aussi avec Marc sur les appels d'offres de Canada.
+[64:36] Et je souhaite l'intégrer directement dans l'automatisation et.
+
+--- Julien Prevost ---
+[64:41] Le combiner.
+[64:42] Ok, mais il y a des...
+[64:44] Vous avez déjà travaillé le workflow appel d'offres.
+
+--- Annaël Lalason ---
+[64:46] Avec Marc?
+[64:48] En fait, on a discuté, mais on n'a pas encore bien avancé là-dessus.
+[64:54] Je crois que d'ici la fin de semaine, ce.
+
+--- Julien Prevost ---
+[64:55] Sera complet.
+[64:56] Non mais ça c'est Jim et moi qui allons s'en occuper, on va mettre Marie dedans parce qu'on va pas agréger tous les sites, on va prendre uniquement J3L et un site.
+
+--- Annaël Lalason ---
+[65:06] Du Canada.
+[65:07] D'accord.
+[65:08] Ça marche.
+[65:09] Je crois que je devrais travailler dessus parce que de ce moment là en fait, c'est que j'ai trouvé quelque chose pour.
+
+--- Julien Prevost ---
+[65:18] Le faire.
+[65:19] Ok, bon y'a pas de problème.
+[65:22] Pas de problème.
+[65:23] À ce moment-là, toi, Naël, quand tu seras en plus dispo, cette semaine, on commence à travailler à le temps que les AO soient prêts.
+[65:31] À ce moment-là, parce que Mic, t'as l'ERH.
+[65:35] Ça veut dire qu'il faut qu'on travaille les AO avant.
+
+--- Annaël Lalason ---
+[65:37] L'Erh.
+
+--- Jimmy RAMIAN ---
+[65:39] Jim?
+[65:40] Ouais.
+[65:41] C'est plus pertinent de faire.
+
+--- Julien Prevost ---
+[65:43] Comme ça.
+[65:45] Enfin, tu me diras, t'as terminé à.
+
+--- Jimmy RAMIAN ---
+[65:46] Midi, là.
+[65:47] Ouais, pour la partie ERH, mais pour la peine d'offre.
+
+--- Julien Prevost ---
+[65:51] Oui vas-y.
+[65:52] On la passera en revue plus tard dans la semaine voir s'il manque des choses.
+
+--- Annaël Lalason ---
+[65:56] Avec.
+
+--- Julien Prevost ---
+[65:57] Marcel.
+[65:59] Ok.
+[66:00] Donc tu prévois un point RH.
+[66:02] Là tu termines à midi et on passe en revue mercredi ou jeudi pour le RH pour que Mick puisse commencer lundi au plus tard.
+[66:09] Et pour les AO faut qu'on se penche dessus pour que Naël puisse.
+
+--- Jimmy RAMIAN ---
+[66:14] Attaquer mercredi.
+[66:16] Ok, si tu peux juste déjà m'envoyer des informations sur J3L Il.
+
+--- Julien Prevost ---
+[66:22] Faut que je les contacte pour voir comment ça fonctionne exactement et ce qui.
+
+--- Annaël Lalason ---
+[66:27] Est intéressant pour nous N'oublie pas de demander si ça nous permettra de ne pas faire du scrapping N'oublie pas de demander si eux ils disposent des API Normalement j'en suis pas très sûr mais.
+
+--- Julien Prevost ---
+[66:41] Demande quand même S'ils ont.
+
+--- Annaël Lalason ---
+[66:45] Des API?
+[66:47] Ouais, je demande quand même s'ils ont des API, ça nous permettra de ne pas faire du strapping.
+[66:52] Je n'en suis pas très sûr, je n'en suis pas vraiment très.
+[66:55] Sûr, mais je demande quand même.
+[66:57] OK, OK.
+[66:59] Du moment qu'on discute déjà avec eux, ça nous permettra d'accélérer la cadence.
+[67:03] Et si vous voulez, vous pouvez aussi le mettre dans la boucle si vous avez besoin de quelque chose de confirmation, quelque chose de similaire pour.
+
+--- Julien Prevost ---
+[67:12] Votre workload.
+[67:14] On va refaire les AO, mais sur les AO en gros on va utiliser que J3L et SEAO pour le moment.
+[67:36] Pour le Québec.
+[67:39] Toutes les informations vont être créées, vont remonter.
+
+--- Jimmy RAMIAN ---
+[67:42] Dans.
+
+--- Julien Prevost ---
+[67:42] Monday.
+[67:46] OK.
+[67:46] C'est parce que dans J3L, dans EAO, t'as que les appels d'offres.
+[67:51] Par contre, dans J3L, t'as aussi.
+
+--- Annaël Lalason ---
+[67:54] Les signaux.
+[67:56] Donc, ils détectent les signaux.
+
+--- Julien Prevost ---
+[67:59] Que ce soit de la levée de fonds, que ce soit du recrutement en masse ou ces choses-là.
+[68:03] Donc, c'est pas des besoins précis.
+[68:05] Mais donc, les entreprises, elles sont détectées avec les potentiels besoins.
+[68:09] L'IA, il va traduire ce besoin, le faire remonter dans Monday.
+[68:13] Une fois que tout est remonté dans Monday, ça va partir dans Lusha, par exemple, pour aller récupérer un numéro de téléphone portable direct et coordonner.
+[68:25] Quand c'est des appels...
+
+--- Jimmy RAMIAN ---
+[68:28] T'as compris?
+[68:30] Oui.
+
+--- Julien Prevost ---
+[68:30] J'Ai compris.
+[68:31] Les signaux d'achat.
+[68:33] Quand c'est des appels d'offres, si c'est des appels d'offres publics, il n'y a rien à aller récupérer.
+[68:38] Si c'est des appels d'offres privés, on va aussi aller récupérer les coordonnées et les informations de l'entreprise qui met l'appel d'offres pour pouvoir le donner à un commercial.
+[68:47] Ça nous donne plus de chances de passer devant les autres si on a fait un rendez-vous avec les responsables.
+[68:57] Et ensuite, il va y avoir une répartition entre trois entités.
+[69:01] Tout ce qui est Québec, ça va être des propositions qui sont faites sous couvert de l'agence CRI.
+[69:08] En fait, on va utiliser leur nom pour postuler.
+[69:12] Tout ce qui est France, Suisse et Belgique pour les projets IT, donc les projets de développement, ça va être ma holding qui va le récupérer.
+[69:24] parce qu'on a une plus grosse crédibilité, et tout ce qui est placement de profil, donc diverses, comme ce que fait mon ambassadeur à 90% aujourd'hui, ça va être.
+
+--- Annaël Lalason ---
+[69:36] Du.
+
+--- Julien Prevost ---
+[69:36] Blanc.
+[69:38] OK.
+[69:40] C'est ça le système.
+[69:44] Et après, il y avait autre chose, mais je.
+
+--- Jimmy RAMIAN ---
+[69:45] Viens d'oublier.
+[69:48] Tu m'envoies par WhatsApp dès que ça te revient.
+
+--- Julien Prevost ---
+[69:50] En tête.
+[69:51] Il ne faut pas que dans Monday Park toutes les affaires de Suisse ou de Belgique où ils imposent une entreprise locale.
+[70:08] Parce que France et Québec ont des entités locales, Suisse et Belgique n'ont pas d'entités locales.
+[70:14] Donc ça ne sert à rien de les agréger.
+[70:19] C'est tout ce qu'il y a à faire.
+[70:21] Déjà, ça, c'est la plus grosse partie.
+[70:23] Après, si on voit des améliorations avec des scores ou donner plus de détails, on se le dit, mais pour l'instant, le squelette, c'est ça.
+[70:36] Après, il évoluera.
+[70:38] Mais Nael, on a besoin de te le dire maintenant.
+[70:40] Ce qui évoluera, parce qu'on doit d'abord absorber cette nouvelle charge de travail pour la partie commerciale avant d'intégrer le reste, parce qu'après, le reste, c'est d'aller détecter certains signaux nous-mêmes, ou d'intégrer aussi les entreprises qui recrutent.
+[70:56] Tu sais, comme tu avais fait au départ, mais qui n'avaient pas fonctionné en entier, comme on avait fait.
+
+--- Annaël Lalason ---
+[71:01] L'Année dernière.
+[71:03] Ah, avec le scrapping.
+[71:05] De LinkedIn?
+[71:07] Allô?
+[71:10] Ouais.
+[71:11] Avec le scrapping.
+
+--- Julien Prevost ---
+[71:12] De LinkedIn?
+[71:14] Oui, le scrapping de LinkedIn demain, pas tout de suite, parce qu'il faut absorber le travail déjà, mais une fois qu'on tourne complètement sur la partie commerciale, il faudra rajouter la partie scrapper les personnes qui recrutent les profils qui nous intéressent.
+[71:29] Et la partie changement de poste.
+
+--- Annaël Lalason ---
+[71:34] De.
+
+--- Julien Prevost ---
+[71:34] C-Level.
+[71:38] D'accord.
+[71:39] Donc nouveau directeur commercial, nouveau CEO, nouveau DSI, tous ceux qui peuvent être ouverts à implémenter des changements dans.
+
+--- Annaël Lalason ---
+[71:48] Leur société.
+[71:50] D'accord, ok.
+[71:52] Je vais déjà commencer par penser à ça, à tout ça, comment je vais l'implémenter et comment je vais.
+[71:58] Trouver des appuis pour.
+
+--- Julien Prevost ---
+[71:59] Le faire.
+[71:59] Mais pour l'instant, si tu me dis que c'est très rapide à implémenter et que ça ne coûte pas une blinde de token, on peut l'ajouter, comme ça on va créer des leads supplémentaires pour les commerciaux, c'est très bien.
+[72:08] Mais si c'est trop complexe, on le fera.
+
+--- Annaël Lalason ---
+[72:10] Plus tard.
+[72:11] C'est du complexe à rajouter parce qu'en fait, comme je t'avais dit.
+[72:14] Avec du LinkedIn, c'est.
+[72:15] Très touchy.
+[72:18] Donc, il faut trouver un moyen pour continuer les bannes potentielles, comment on va scraper tout ça sans être.
+
+--- Julien Prevost ---
+[72:25] Détecté, etc.
+[72:26] C'est pas grave, la priorité c'est les AO, c'est J3L et SEAO qu'on vient.
+
+--- Annaël Lalason ---
+[72:32] De voir.
+[72:33] D'accord, ok.
+[72:34] Sur ça en fait, je.
+[72:36] Suis en train de voir carrément, il.
+[72:40] Y a une capacité d'implémenter, de mettre un bot qui permet de scraper directement le site, mais demande quand même, si tu vas t'appeler du 3L, demande quand même s'ils ont des API qui sont déjà très performants et après on pourra exploiter toutes ces données-là.
+
+--- Julien Prevost ---
+[72:55] Via API.
+[72:57] T'as rendez-vous là à 10h30, j'essaierai de vous le connecter si je peux, mais avec le nouveau système téléphonique là, que tu vois si.
+
+--- Jimmy RAMIAN ---
+[73:06] C'Est mieux.
+[73:07] Justement, je viens de regarder mon agenda, j'ai failli l'oublier, heureusement que je l'ai.
+
+--- Julien Prevost ---
+[73:12] Mis aussi.
+[73:13] Bien évidemment, il faut savoir à combien sont les numéros de portable, puisque c'est ce qu'on utilise majoritairement.
+[73:19] Si leurs transcripts et leurs analyses IA sont bonnes, ça nous économisera.
+
+--- Annaël Lalason ---
+[73:23] Des.
+
+--- Julien Prevost ---
+[73:23] Tokens Ok, c'est clair pour tout le.
+
+--- Annaël Lalason ---
+[73:32] Monde l'agenda?
+[73:34] C'est clair, je vais revenir avec mes.
+
+--- Julien Prevost ---
+[73:38] Cas après.
+[73:39] Ok, super et Jean-Aimé, bienvenue officiellement dans l'équipe, on te fait envoyer les contrats.
+
+--- Jean Aimé ---
+[73:43] Par l'ERH.
+[73:46] D'accord, merci beaucoup, merci beaucoup William.
+[73:49] Ça m'a aidé.
+
+--- Julien Prevost ---
+[73:49] Très.
+
+--- Annaël Lalason ---
+[73:49] Beaucoup.
+[73:51] Pareillement.
+[73:53] Donne-nous du beau travail, on.
+[73:55] Sera.
+
+--- Jimmy RAMIAN ---
+[73:55] Heureux.
+[73:57] J'allais te charrier justement Naël sur la partie RH si tu n'as pas changé d'avis.
+[74:23] Pour la partie RH, il y aura une création.
+
+--- Annaël Lalason ---
+[74:25] D'Agent IA.
+[74:27] Je laisse faire Mike parce que j'aimerais qu'il a ce genre de mindset où il veut s'améliorer, tu vois.
+[74:35] Je le passe à Mike.
+[74:38] Les gars, au mois de mars, vous venez.
+[74:43] Au mois de mars, vous venez parce que je crois que ça fait longtemps que vous restez là-bas.
+[74:50] Le boss, il vient, il.
+[74:51] Part et on ne discute pas.
+
+--- Jimmy RAMIAN ---
+[74:53] Avec lui.
+[74:54] Nael va aller dans la cage de MMA le.
+
+--- Julien Prevost ---
+[74:58] 28 mars.
+[75:00] Si les automatisations ne sont pas propres et nickel, le 15 mars, Nael va dans.
+
+--- Annaël Lalason ---
+[75:06] La cage.
+[75:08] Vas-y, comme si on peut faire de la magie avec.
+
+--- Julien Prevost ---
+[75:12] Ça aussi.
+[75:14] C'est ton problème.
+[75:16] En tout cas, moi, je sais que dans les listes de combattants, on a reçu des combattants de 93 kilos qui boxent en international.
+[75:23] On va te.
+
+--- Annaël Lalason ---
+[75:23] Les mettre.
+[75:24] Je crois que ce ne sont pas des adaptés pour moi.
+[75:29] Appellent plutôt des gars qui font de.
+
+--- Julien Prevost ---
+[75:30] La sumo.
+[75:31] T'inquiète pas, c'est 93 kilos qui se battent, tu vas voir.
+
+--- Annaël Lalason ---
+[75:36] T'inquiète pas.
+[75:37] Ok.
+[75:38] Ok, ok.
+[75:39] C'est bon.
+
+--- Jimmy RAMIAN ---
+[75:43] C'Est bon.
+[75:44] Bonne journée tout.
+
+--- Annaël Lalason ---
+[75:45] Le monde.
+[75:46] Bonne journée.
+
+--- Julien Prevost ---
+[75:46] Les gars.
+[75:47] Bonne journée.

@@ -49,13 +49,13 @@ FIREFLIES_API_KEY=your_api_key_here
 Download a transcript using its ID:
 
 ```bash
-python download_transcript.py 01KHJNY4DDYNKW4ECNE2B2NSKQ
+python download_transcript.py your_transcript_id
 ```
 
 Or using a Fireflies URL:
 
 ```bash
-python download_transcript.py https://app.fireflies.ai/view/01KHJNY4DDYNKW4ECNE2B2NSKQ
+python download_transcript.py https://app.fireflies.ai/view/your_transcript_id
 ```
 
 ### Options
@@ -81,13 +81,13 @@ optional arguments:
 Download only the JSON file:
 
 ```bash
-python download_transcript.py -f json 01KHJNY4DDYNKW4ECNE2B2NSKQ
+python download_transcript.py -f json your_transcript_id
 ```
 
 Download to a specific directory:
 
 ```bash
-python download_transcript.py -o ./transcripts 01KHJNY4DDYNKW4ECNE2B2NSKQ
+python download_transcript.py -o ./transcripts your_transcript_id
 ```
 
 ## Output Format

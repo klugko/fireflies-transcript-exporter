@@ -127,15 +127,23 @@ class TranscriptFormatter:
             lines.append(summary["overview"])
             lines.append("")
 
-        if summary.get("keywords"):
+        keywords = summary.get("keywords")
+        if keywords:
             lines.append("--- KEYWORDS ---")
-            lines.append(", ".join(summary["keywords"]))
+            if isinstance(keywords, list):
+                lines.append(", ".join(keywords))
+            else:
+                lines.append(str(keywords))
             lines.append("")
 
-        if summary.get("action_items"):
+        action_items = summary.get("action_items")
+        if action_items:
             lines.append("--- ACTION ITEMS ---")
-            for item in summary["action_items"]:
-                lines.append(f"  - {item}")
+            if isinstance(action_items, str):
+                lines.append(action_items.strip())
+            else:
+                for item in action_items:
+                    lines.append(f"  - {item}")
             lines.append("")
 
     def _add_sentences(self, lines: list, sentences: list):
